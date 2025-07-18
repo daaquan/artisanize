@@ -2,22 +2,18 @@
 
 namespace Artisanize;
 
-use Artisanize\Input\Option;
 use Artisanize\Input\Argument;
+use Artisanize\Input\Option;
 
 class SignatureParser
 {
     /**
      * The command to build.
-     *
-     * @var Command
      */
-    protected $command;
+    protected Command $command;
 
     /**
      * Construct.
-     *
-     * @param Command $command
      */
     public function __construct(Command $command)
     {
@@ -26,10 +22,8 @@ class SignatureParser
 
     /**
      * Parse the command signature.
-     *
-     * @param string $signature
      */
-    public function parse($signature)
+    public function parse(string $signature): void
     {
         $this->setName($signature);
 
@@ -48,22 +42,16 @@ class SignatureParser
 
     /**
      * Set the command name.
-     *
-     * @param string $signature
      */
-    protected function setName($signature)
+    protected function setName(string $signature): void
     {
         $this->command->setName(preg_split('/\s+/', $signature)[0]);
     }
 
     /**
      * Extract arguments and options from signature.
-     *
-     * @param string $signature
-     *
-     * @return array
      */
-    protected function extractArgumentsOptions($signature)
+    protected function extractArgumentsOptions(string $signature): array
     {
         preg_match_all('/{(.*?)}/', $signature, $argumentsOption);
 

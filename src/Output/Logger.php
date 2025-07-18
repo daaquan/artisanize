@@ -6,17 +6,13 @@ class Logger extends Output
 {
     /**
      * Log of received messages.
-     *
-     * @var array
      */
-    protected $log = [];
+    protected array $log = [];
 
     /**
      * Write a message.
-     *
-     * @param string $message
      */
-    public function write($message)
+    public function write(string $message): void
     {
         if ($this->verbosity) {
             $this->log[] = $message;
@@ -25,12 +21,8 @@ class Logger extends Output
 
     /**
      * Return the log array.
-     *
-     * @param int $index
-     *
-     * @return array
      */
-    public function getLog($index = null)
+    public function getLog(?int $index = null): array
     {
         if (is_null($index)) {
             return $this->log;
@@ -41,12 +33,8 @@ class Logger extends Output
 
     /**
      * Return true if log contains message.
-     *
-     * @param string $message
-     *
-     * @return bool
      */
-    public function hasMessage($message)
+    public function hasMessage(string $message): bool
     {
         return in_array($message, $this->getLog());
     }
@@ -54,7 +42,7 @@ class Logger extends Output
     /**
      * Clear the log.
      */
-    public function clearLog()
+    public function clearLog(): void
     {
         $this->log = [];
     }

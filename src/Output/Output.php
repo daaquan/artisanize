@@ -6,44 +6,34 @@ abstract class Output
 {
     /**
      * Output verbosity.
-     *
-     * @var bool
      */
-    protected $verbosity = true;
+    protected bool $verbosity = true;
 
     /**
      * Write a message.
-     *
-     * @param string $message
      */
-    abstract public function write($message);
+    abstract public function write(string $message): void;
 
     /**
      * Write an info message.
-     *
-     * @param string $message
      */
-    public function writeInfo($message)
+    public function writeInfo(string $message): void
     {
         $this->write("<info>{$message}</info>");
     }
 
     /**
      * Write an error message.
-     *
-     * @param string $message
      */
-    public function writeError($message)
+    public function writeError(string $message): void
     {
         $this->write("<error>{$message}</error>");
     }
 
     /**
      * Write a comment message.
-     *
-     * @param string $message
      */
-    public function writeComment($message)
+    public function writeComment(string $message): void
     {
         $this->write("<comment>{$message}</comment>");
     }
@@ -51,11 +41,10 @@ abstract class Output
     /**
      * Set the output verbosity.
      *
-     * @param bool $verbosity
      *
      * @return $this
      */
-    public function setVerbosity($verbosity)
+    public function setVerbosity(bool $verbosity): static
     {
         $this->verbosity = $verbosity;
 

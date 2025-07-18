@@ -8,17 +8,15 @@ class Argument extends Input
 {
     /**
      * Default arguement value.
-     *
-     * @var null|string
      */
-    protected $default = null;
+    protected ?string $default = null;
 
     /**
      * Parse the set argument string.
      *
      * @return $this
      */
-    public function parse()
+    public function parse(): static
     {
         return $this->setDescription()
             ->setArray('IS_ARRAY')
@@ -34,7 +32,7 @@ class Argument extends Input
      *
      * @return $this
      */
-    protected function setOptional()
+    protected function setOptional(): static
     {
         if (substr($this->input, -1) === '?') {
             $this->modeArray[] = 'OPTIONAL';
@@ -50,10 +48,10 @@ class Argument extends Input
      *
      * @return $this
      */
-    protected function setDefault()
+    protected function setDefault(): static
     {
         if (strpos($this->input, '=')) {
-            list($this->input, $this->default) = explode('=', $this->input);
+            [$this->input, $this->default] = explode('=', $this->input);
 
             $this->modeArray[] = 'OPTIONAL';
         }
@@ -66,9 +64,9 @@ class Argument extends Input
      *
      * @return $this
      */
-    protected function setRequired()
+    protected function setRequired(): static
     {
-        if (!in_array('OPTIONAL', $this->modeArray)) {
+        if (! in_array('OPTIONAL', $this->modeArray)) {
             $this->modeArray[] = 'REQUIRED';
         }
 
@@ -77,16 +75,14 @@ class Argument extends Input
 
     /**
      * Get the argument attributes.
-     *
-     * @return array
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return [
-            'name'        => $this->name,
-            'mode'        => $this->mode,
+            'name' => $this->name,
+            'mode' => $this->mode,
             'description' => $this->description,
-            'default'     => $this->default,
+            'default' => $this->default,
         ];
     }
 }

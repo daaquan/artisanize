@@ -8,24 +8,20 @@ class Option extends Input
 {
     /**
      * Option shortcut.
-     *
-     * @var null|string
      */
-    protected $shortcut = null;
+    protected ?string $shortcut = null;
 
     /**
      * Default option value.
-     *
-     * @var null|string
      */
-    protected $default = null;
+    protected ?string $default = null;
 
     /**
      * Parse the set input string.
      *
      * @return $this
      */
-    public function parse()
+    public function parse(): static
     {
         return $this->setDescription()
             ->setArray('VALUE_IS_ARRAY')
@@ -41,7 +37,7 @@ class Option extends Input
      *
      * @return $this
      */
-    protected function setValue()
+    protected function setValue(): static
     {
         if (strpos($this->input, '=') !== false) {
             if (substr($this->input, -1) === '=') {
@@ -49,7 +45,7 @@ class Option extends Input
 
                 $this->modeArray[] = 'VALUE_REQUIRED';
             } else {
-                list($this->input, $this->default) = explode('=', $this->input);
+                [$this->input, $this->default] = explode('=', $this->input);
 
                 $this->modeArray[] = 'VALUE_OPTIONAL';
             }
@@ -63,7 +59,7 @@ class Option extends Input
      *
      * @return $this
      */
-    protected function setEmptyMode()
+    protected function setEmptyMode(): static
     {
         $this->modeArray = empty($this->modeArray) ? ['VALUE_NONE'] : $this->modeArray;
 
@@ -75,10 +71,10 @@ class Option extends Input
      *
      * @return $this
      */
-    protected function setShortcut()
+    protected function setShortcut(): static
     {
         if (strpos($this->input, '|') !== false) {
-            list($this->shortcut, $this->input) = explode('|', $this->input);
+            [$this->shortcut, $this->input] = explode('|', $this->input);
         }
 
         return $this;
@@ -86,17 +82,15 @@ class Option extends Input
 
     /**
      * Get the option attributes.
-     *
-     * @return array
      */
-    public function getAttributes()
+    public function getAttributes(): array
     {
         return [
-            'name'        => $this->name,
-            'shortcut'    => $this->shortcut,
-            'mode'        => $this->mode,
+            'name' => $this->name,
+            'shortcut' => $this->shortcut,
+            'mode' => $this->mode,
             'description' => $this->description,
-            'default'     => $this->default,
+            'default' => $this->default,
         ];
     }
 }

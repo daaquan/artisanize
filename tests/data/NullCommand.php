@@ -6,65 +6,72 @@ use Artisanize\Command;
 
 class NullCommand extends Command
 {
-    protected $name;
+    protected ?string $name;
 
-    protected $description;
+    protected string $description = '';
 
-    protected $options = [];
+    protected array $options = [];
 
-    protected $arguments = [];
+    protected array $arguments = [];
 
-    public function __construct($name = null)
+    public function __construct(?string $name = null)
     {
         $this->name = $name;
     }
 
-    public function setName($name)
+    public function setName(string $name): static
     {
         $this->name = $name;
+
+        return $this;
     }
 
-    public function setDescription($description)
+    public function setDescription(string $description): static
     {
+        return $this;
     }
 
-    public function addArgument($name, $mode = null, $description = '', $default = null)
+    public function addArgument(string $name, ?int $mode = null, ?string $description = '', mixed $default = null, array|\Closure $suggestedValues = []): static
     {
         $this->arguments[] = [
-            'name'        => $name,
-            'mode'        => $mode,
+            'name' => $name,
+            'mode' => $mode,
             'description' => $description,
-            'default'     => $default,
+            'default' => $default,
         ];
+
+        return $this;
     }
 
-    public function addOption($name, $shortcut = null, $mode = null, $description = '', $default = null)
+    public function addOption(string $name, string|array|null $shortcut = null, ?int $mode = null, ?string $description = '', mixed $default = null, array|\Closure $suggestedValues = []): static
     {
         $this->options[] = [
-            'name'        => $name,
-            'shortcut'    => $shortcut,
-            'mode'        => $mode,
+            'name' => $name,
+            'shortcut' => $shortcut,
+            'mode' => $mode,
             'description' => $description,
-            'default'     => $default,
+            'default' => $default,
         ];
+
+        return $this;
     }
 
-    public function getName()
+    public function getName(): ?string
     {
         return $this->name;
     }
 
-    public function getDescription()
+    public function getDescription(): string
     {
         return $this->description;
     }
 
-    public function getArguments()
+    public function getArguments(): array
     {
         return $this->arguments;
     }
 
-    public function getOptions()
+    public function getOptions(): array
     {
         return $this->options;
     }
