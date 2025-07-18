@@ -6,50 +6,38 @@ abstract class Input
 {
     /**
      * Input.
-     *
-     * @var string
      */
-    protected $input;
+    protected string $input;
 
     /**
      * Original input string.
-     *
-     * @var string
      */
-    protected $original;
+    protected string $original;
 
     /**
      * Input name.
-     *
-     * @var string
      */
-    protected $name;
+    protected string $name;
 
     /**
      * Input description.
-     *
-     * @var null|string
      */
-    protected $description;
+    protected ?string $description = null;
 
     /**
      * Array of input modes to apply.
-     *
-     * @var array
      */
-    protected $modeArray = [];
+    protected array $modeArray = [];
 
     /**
      * Argument mode.
-     *
-     * @var int
      */
-    protected $mode = 0;
+    protected int $mode = 0;
 
     /**
      * Construct.
      *
-     * @param string $input
+     * @param  string  $input
      */
     public function __construct($input)
     {
@@ -62,23 +50,20 @@ abstract class Input
      *
      * @return $this
      */
-    abstract public function parse();
+    abstract public function parse(): static;
 
     /**
      * Get the input attributes.
-     *
-     * @return array
      */
-    abstract public function getAttributes();
+    abstract public function getAttributes(): array;
 
     /**
      * Set array modeArray value if value contains *.
      *
-     * @param string $constant
      *
      * @return $this
      */
-    protected function setArray($constant)
+    protected function setArray(string $constant): static
     {
         if (strpos($this->input, '*') !== false) {
             $this->modeArray[] = $constant;
@@ -94,7 +79,7 @@ abstract class Input
      *
      * @return $this
      */
-    protected function setDescription()
+    protected function setDescription(): static
     {
         if (strpos($this->input, ':') !== false) {
             $inputArray = array_map('trim', explode(':', $this->input));
@@ -110,11 +95,10 @@ abstract class Input
     /**
      * Calculate the mode score.
      *
-     * @param string $class
      *
      * @return $this
      */
-    protected function calculateMode($class)
+    protected function calculateMode(string $class): static
     {
         foreach ($this->modeArray as $constant) {
             $this->mode = $this->mode | constant($class.'::'.$constant);
@@ -128,7 +112,7 @@ abstract class Input
      *
      * @return $this
      */
-    protected function setName()
+    protected function setName(): static
     {
         $this->name = $this->input;
 

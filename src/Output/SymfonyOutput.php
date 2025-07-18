@@ -8,15 +8,11 @@ class SymfonyOutput extends Output
 {
     /**
      * Symfony command output.
-     *
-     * @var OutputInterface
      */
-    protected $output;
+    protected OutputInterface $output;
 
     /**
      * Construct.
-     *
-     * @param OutputInterface $output
      */
     public function __construct(OutputInterface $output)
     {
@@ -25,10 +21,8 @@ class SymfonyOutput extends Output
 
     /**
      * Write a message.
-     *
-     * @param string $message
      */
-    public function write($message)
+    public function write(string $message): void
     {
         if ($this->verbosity) {
             $this->output->writeln($message);
@@ -37,10 +31,8 @@ class SymfonyOutput extends Output
 
     /**
      * Get the Symfony output class.
-     *
-     * @return OutputInterface
      */
-    public function getOutput()
+    public function getOutput(): OutputInterface
     {
         return $this->output;
     }

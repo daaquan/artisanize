@@ -4,49 +4,41 @@ namespace Artisanize;
 
 use Artisanize\Input\Input;
 use Artisanize\Output\SymfonyOutput;
-use Symfony\Component\Console\Question\Question;
+use Symfony\Component\Console\Command\Command as SymfonyCommand;
 use Symfony\Component\Console\Input\InputInterface;
 use Symfony\Component\Console\Output\OutputInterface;
 use Symfony\Component\Console\Question\ChoiceQuestion;
 use Symfony\Component\Console\Question\ConfirmationQuestion;
-use Symfony\Component\Console\Command\Command as SymfonyCommand;
+use Symfony\Component\Console\Question\Question;
 
 abstract class Command extends SymfonyCommand
 {
     /**
      * Symfony console output.
-     *
-     * @var SymfonyOutput
      */
-    protected $output;
+    protected ?SymfonyOutput $output = null;
 
     /**
      * Symfony input implementation.
-     *
-     * @var InputInterface
      */
-    protected $input;
+    protected InputInterface $input;
 
     /**
      * The command description.
-     *
-     * @var string
      */
-    protected $description;
+    protected string $description;
 
     /**
      * Command signature.
-     *
-     * @var null|string
      */
-    protected $signature = null;
+    protected ?string $signature = null;
 
     /**
      * Configure the command if signature is set.
      */
     protected function configure()
     {
-        if (!is_null($this->signature)) {
+        if (! is_null($this->signature)) {
             $parser = new SignatureParser($this);
 
             $parser->parse($this->signature);
@@ -57,11 +49,8 @@ abstract class Command extends SymfonyCommand
 
     /**
      * Execute the command.
-     *
-     * @param InputInterface  $input
-     * @param OutputInterface $output
      */
-    protected function execute(InputInterface $input, OutputInterface $output)
+    protected function execute(InputInterface $input, OutputInterface $output): int
     {
         $this->output = new SymfonyOutput($output);
 
@@ -70,6 +59,8 @@ abstract class Command extends SymfonyCommand
         if (method_exists($this, 'handle')) {
             $this->handle();
         }
+
+        return SymfonyCommand::SUCCESS;
     }
 
     /**
@@ -95,8 +86,7 @@ abstract class Command extends SymfonyCommand
     /**
      * Get the value of a command argument.
      *
-     * @param string $key
-     *
+     * @param  string  $key
      * @return string|array
      */
     protected function argument($key = null)
@@ -111,8 +101,7 @@ abstract class Command extends SymfonyCommand
     /**
      * Determine if the given argument is present.
      *
-     * @param string|int $name
-     *
+     * @param  string|int  $name
      * @return bool
      */
     protected function hasArgument($name)
@@ -123,8 +112,7 @@ abstract class Command extends SymfonyCommand
     /**
      * Get the value of a command option.
      *
-     * @param string $key
-     *
+     * @param  string  $key
      * @return string|array
      */
     protected function option($key = null)
@@ -139,8 +127,7 @@ abstract class Command extends SymfonyCommand
     /**
      * Determine if the given option is present.
      *
-     * @param string $name
-     *
+     * @param  string  $name
      * @return bool
      */
     protected function hasOption($name)
@@ -150,8 +137,6 @@ abstract class Command extends SymfonyCommand
 
     /**
      * Add input to the command.
-     *
-     * @param Input $input
      */
     public function addInput(Input $input)
     {
@@ -167,8 +152,7 @@ abstract class Command extends SymfonyCommand
     /**
      * Ask for confirmation.
      *
-     * @param string $text
-     *
+     * @param  string  $text
      * @return mixed
      */
     public function confirm($text)
@@ -183,9 +167,8 @@ abstract class Command extends SymfonyCommand
     /**
      * Ask a question.
      *
-     * @param string     $question
-     * @param mixed|null $default
-     *
+     * @param  string  $question
+     * @param  mixed|null  $default
      * @return mixed
      */
     public function ask($question, $default = null)
@@ -200,8 +183,7 @@ abstract class Command extends SymfonyCommand
     /**
      * Ask a password.
      *
-     * @param string $question
-     *
+     * @param  string  $question
      * @return mixed
      */
     public function askPassword($question)
@@ -220,10 +202,8 @@ abstract class Command extends SymfonyCommand
     /**
      * Ask a question where the answer is available from a list of predefined choices.
      *
-     * @param string     $question
-     * @param array      $choices
-     * @param mixed|null $default
-     *
+     * @param  string  $question
+     * @param  mixed|null  $default
      * @return mixed
      */
     public function choose($question, array $choices, $default = null)
@@ -240,10 +220,8 @@ abstract class Command extends SymfonyCommand
     /**
      * Ask a question where some auto-completion help is provided.
      *
-     * @param string     $question
-     * @param array      $autoCompletion
-     * @param mixed|null $default
-     *
+     * @param  string  $question
+     * @param  mixed|null  $default
      * @return mixed
      */
     public function anticipate($question, array $autoCompletion, $default = null)
@@ -260,10 +238,8 @@ abstract class Command extends SymfonyCommand
     /**
      * Ask a question where the answer is available from a list of predefined choices and more choices can be selected.
      *
-     * @param string     $question
-     * @param array      $choices
-     * @param mixed|null $default
-     *
+     * @param  string  $question
+     * @param  mixed|null  $default
      * @return mixed
      */
     public function choice($question, array $choices, $default = null)

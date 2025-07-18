@@ -16,8 +16,7 @@ class BaseTestCase extends TestCase
     /**
      * Register a created file that should be unlinked during treardown.
      *
-     * @param string $path
-     *
+     * @param  string  $path
      * @return void
      */
     protected function registerCreatedFile($path)
@@ -37,7 +36,7 @@ class BaseTestCase extends TestCase
                 $dir = new \DirectoryIterator($path);
 
                 foreach ($dir as $file) {
-                    if (!$file->isDot()) {
+                    if (! $file->isDot()) {
                         unlink($file->getPathname());
                     }
                 }
